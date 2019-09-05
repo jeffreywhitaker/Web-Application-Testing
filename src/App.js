@@ -10,7 +10,7 @@ export default function App() {
   const [strikeCount, setStrikeCount] = useState(0)
 
   // handlers
-  const handleBall = () => {
+  const handleBall = (strikeCount, ballCount) => {
     if (strikeCount === 2 || ballCount === 3) {
       setBallCount(0)
       setStrikeCount(0)
@@ -18,8 +18,8 @@ export default function App() {
       setBallCount(ballCount + 1)
     }
   }
-
-  const handleStrike = () => {
+  
+  const handleStrike = (strikeCount, ballCount) => {
     if (strikeCount === 2 || ballCount === 3) {
       setBallCount(0)
       setStrikeCount(0)
@@ -27,7 +27,7 @@ export default function App() {
       setStrikeCount(strikeCount + 1)
     }
   }
-
+  
   const handleFoul = () => {
     if (strikeCount === 0) {
       setStrikeCount(1)
@@ -37,7 +37,7 @@ export default function App() {
       setStrikeCount(strikeCount)
     }
   }
-
+  
   const handleHit = () => {
     setBallCount(0)
     setStrikeCount(0)
@@ -47,7 +47,7 @@ export default function App() {
   return (
     <div className="container">
       <Display ballCount={ballCount} strikeCount={strikeCount} />
-      <Dashboard handleBall={handleBall} handleStrike={handleStrike} handleFoul={handleFoul} handleHit={handleHit}/>
+      <Dashboard handleBall={handleBall} handleStrike={handleStrike} handleFoul={handleFoul} handleHit={handleHit} strikeCount={strikeCount} ballCount={ballCount}/>
     </div>
   )
 }
