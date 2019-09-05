@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
 import './App.css'
 
-function App() {
+import Display from './components/Display'
+import Dashboard from './components/Dashboard'
+
+export default function App() {
+  // state logic
   const [ballCount, setBallCount] = useState(0)
   const [strikeCount, setStrikeCount] = useState(0)
 
+  // handlers
   const handleBall = () => {
     if (strikeCount === 2 || ballCount === 3) {
       setBallCount(0)
@@ -38,21 +43,11 @@ function App() {
     setStrikeCount(0)
   }
 
-
+  // return statement
   return (
     <div className="container">
-      <section className="scoreboard">
-        <div className="ballCount">Ball: {ballCount}</div>
-        <div className="strikeCount">Strike: {strikeCount}</div>
-      </section>
-      <section className="buttons">
-        <button onClick={handleBall}>Ball</button>
-        <button onClick={handleStrike}>Strike</button>
-        <button onClick={handleFoul}>Foul</button>
-        <button onClick={handleHit}>Hit</button>
-      </section>
+      <Display ballCount={ballCount} strikeCount={strikeCount} />
+      <Dashboard handleBall={handleBall} handleStrike={handleStrike} handleFoul={handleFoul} handleHit={handleHit}/>
     </div>
-  );
+  )
 }
-
-export default App;
