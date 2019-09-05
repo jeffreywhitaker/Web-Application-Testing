@@ -1,12 +1,12 @@
 import React from 'react'
 
-export default function Dashboard() {
+export default function Dashboard(props) {
     return (
         <section className="buttons">
-            <button onClick={handleBall}>Ball</button>
-            <button onClick={handleStrike}>Strike</button>
-            <button onClick={handleFoul}>Foul</button>
-            <button onClick={handleHit}>Hit</button>
+            <button onClick={props.handleBall}>Ball</button>
+            <button onClick={props.handleStrike}>Strike</button>
+            <button onClick={props.handleFoul}>Foul</button>
+            <button onClick={props.handleHit}>Hit</button>
         </section>
     )
 }
