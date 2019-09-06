@@ -1,39 +1,44 @@
 import React from 'react'
 import * as rtl from '@testing-library/react'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 
 import App, { handleBall, handleStrike, handleFoul, handleHit } from './App'
 
 test('App renders without crashing', () => {
-  rtl.render(<App />)
-})
-
-test('handleBall adds 1 to ball, resets both if strike is 2 or ball is 3', () => {
-  expect(handleBall(0, 0)).toBe(0, 1)
-  expect(handleBall(2, 0)).toBe(0, 0)
-  expect(handleBall(0, 1)).toBe(0, 2)
-})
-
-test('handleStrike adds 1 to strike, resets both if strike is 2 or ball is 3', () => {
-  expect(handleStrike(0, 0)).toBe(1, 0)
-  expect(handleStrike(2, 0)).toBe(0, 0)
-  expect(handleStrike(0, 1)).toBe(1, 1)
-})
-
-test('handleFoul adds 1 to strike, unless at 2 in which case nothing', () => {
-  expect(handleFoul(0, 0)).toBe(1, 0)
-  expect(handleFoul(2, 0)).toBe(2, 0)
-  expect(handleFoul(0, 1)).toBe(1, 1)
-})
-
-test('handleHit resets strike and ball to 0', () => {
-  expect(handleHit(1, 3)).toBe(0, 0)
-  expect(handleHit(2, 2)).toBe(0, 0)
-  expect(handleHit(3, 1)).toBe(0, 0)
-})
-
-test('App contains strike and ball counters', () => {
   const { getByText } = render(<App />)
   getByText("Strike")
   getByText("Ball")
+})
+
+test('handleBall adds 1 to ball and sets ball count to 0 if ball count is 3', () => {
+  const { getByTestId } = rtl.render(<App />)
+  const ballButton = getByTestId('ballButton');
+  const ballCount = getByTestId('ballCount');
+  expect(ballCount.textContent).toBe('Ball: 0')
+  fireEvent.click(ballButton)
+  expect(ballCount.textContent).toBe('Ball: 1')
+  fireEvent.click(ballButton)
+  expect(ballCount.textContent).toBe('Ball: 2')
+  fireEvent.click(ballButton)
+  expect(ballCount.textContent).toBe('Ball: 3')
+  fireEvent.click(ballButton)
+  expect(ballCount.textContent).toBe('Ball: 0')
+})
+
+test('handleBall sets strike count and ball count to 0 if strike count is 2', () => {
+  const { getByTestId } = rtl.render(<App />)
+  const ballButton = getByTestId('ballButton');
+  const ballCount = getByTestId('ballCount');
+  const strikeButton = getByTestId('strikeButton');
+  const strikeCount = getByTestId('strikeCount');
+  fireEvent.click(ballButton)
+  expect(ballCount.textContent).toBe('Ball: 1')
+  expect(strikeCount.textContent).toBe('Strike: 0')
+  fireEvent.click(strikeButton)
+  expect(strikeCount.textContent).toBe('Strike: 1')
+  fireEvent.click(strikeButton)
+  expect(strikeCount.textContent).toBe('Strike: 2')
+  fireEvent.click(ballButton)
+  expect(strikeCount.textContent).toBe('Strike: 0')
+  expect(ballCount.textContent).toBe('Ball: 0')
 })
