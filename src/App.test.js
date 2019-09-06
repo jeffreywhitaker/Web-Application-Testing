@@ -2,7 +2,7 @@ import React from 'react'
 import * as rtl from '@testing-library/react'
 import { render, fireEvent } from '@testing-library/react'
 
-import App, { handleBall, handleStrike, handleFoul, handleHit } from './App'
+import App from './App'
 
 test('App renders without crashing', () => {
   const { getByText } = render(<App />)
